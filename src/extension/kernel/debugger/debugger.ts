@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { DebugProtocol } from 'vscode-debugprotocol';
+import { DebugProtocol } from '@vscode/debugprotocol';
 import { NotebookDocument, NotebookCell, DebugSession, DebugAdapterTracker, Uri } from 'vscode';
 import * as path from 'path';
 import { JavaScriptKernel } from '../jsKernel';
