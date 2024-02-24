@@ -392,6 +392,7 @@
         "@types/yargs": "^17.0.2",
         "@typescript-eslint/eslint-plugin": "^4.29.0",
         "@typescript-eslint/parser": "^4.29.0",
+        "@vscode/debugprotocol": "^1.64.0",
         "@vscode/dts": "^0.4.0",
         "@vscode/test-electron": "^2.3.9",
         "arquero": "^4.8.4",
