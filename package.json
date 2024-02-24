@@ -416,7 +416,7 @@
         "install": "^0.13.0",
         "less": "^3.11.3",
         "mocha": "^9.0.3",
-        "npm": "^6.14.5",
+        "npm": "^10.4.0",
         "prettier": "^2.3.2",
         "style-loader": "^1.2.1",
         "svg-inline-loader": "^0.8.2",
