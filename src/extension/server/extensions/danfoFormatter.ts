@@ -1,7 +1,7 @@
 import * as path from 'path';
 import { logErrorMessage } from '../logger';
 import type * as dfd from 'danfojs-node';
-import type { Configs } from 'danfojs-node/types/config/config';
+import type Configs from 'danfojs-node/dist/danfojs-base/shared/config';
 
 import { sendMessage } from '../comms';
 import { DanfoNodePlotter } from './danforPlotter';
@@ -178,7 +178,7 @@ function hijackNDFramePrint(danfoJs: typeof dfd, config?: Configs) {
     };
 }
 function seriesToHtmlJson(series: dfd.Series, config?: Configs): { html: string; json: any[] } {
-    const max_row = Math.max(config?.table_max_row || 100, 100); //config.get_max_row;
+    const max_row = Math.max(config?.tableMaxRow || 100, 100); //config.get_max_row;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const data_arr: any[] = [];
     const header = [''].concat(series.columns);
@@ -219,8 +219,8 @@ function seriesToHtmlJson(series: dfd.Series, config?: Configs): { html: string;
 }
 
 function frameToHtmlJson(df: dfd.DataFrame, config?: Configs): { html: string; json: any[] } {
-    const max_col_in_console = Math.max(config?.get_max_col_in_console || 100, 100);
-    const max_row = Math.max(config?.get_max_row || 100, 100);
+    const max_col_in_console = Math.max(config?.tableMaxColInConsole || 100, 100);
+    const max_row = Math.max(config?.getMaxRow || 100, 100);
     // let data;
     type Row = string[];
     const data_arr: Row[] = [];
