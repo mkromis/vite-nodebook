@@ -27,7 +27,7 @@ export async function formatImage(
     // Sometimes the value could be a file path.
     try {
         const buffer = await fs.readFile(image);
-        const type = await fileType.fromBuffer(buffer);
+        const type = await fileType.fileTypeFromBuffer(buffer);
         if (type?.mime.startsWith('image/')) {
             return formatValue(`data:${type.mime};base64,${buffer.toString('base64')}`, requestId);
         }
@@ -84,7 +84,7 @@ export async function formatValue(value: unknown, requestId: string): Promise<Di
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const buffer: Buffer = kindOf(value) === 'buffer' ? (value as Buffer) : Buffer.from(value as any);
         try {
-            const type = await fileType.fromBuffer(buffer);
+            const type = await fileType.fileTypeFromBuffer(buffer);
             if (type?.mime.startsWith('image/')) {
                 return {
                     type: 'image',
