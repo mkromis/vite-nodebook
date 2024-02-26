@@ -10,7 +10,7 @@ import {
     workspace
 } from 'vscode';
 import { IDisposable } from '../types';
-import * as getPort from 'get-port';
+import getPort from 'get-port';
 import * as WebSocket from 'ws';
 import { CellExecutionState } from './types';
 import * as path from 'path';
