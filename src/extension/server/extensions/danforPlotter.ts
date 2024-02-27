@@ -42,7 +42,7 @@ function generatePlot(data, config, eleId: string) {
 }
 export class DanfoNodePlotter {
     public static requestId: string = '';
-    constructor(private readonly ndframe, private readonly danfojs: typeof dfd, private readonly div: string = '') {}
+    constructor(private readonly ndframe, private readonly danfojs: typeof dfd, private readonly div: string = '') { }
 
     line(config = {}) {
         const ret_params = this.__get_plot_params(config);
@@ -72,8 +72,9 @@ export class DanfoNodePlotter {
                 if (!this.ndframe.column_names.includes(this_config['y'])) {
                     throw Error(`Column Error: ${this_config['y']} not found in columns`);
                 }
-
+                //@ts-ignore
                 const x = this.ndframe[this_config['x']].values;
+                //@ts-ignore
                 const y = this.ndframe[this_config['y']].values;
                 const trace = {};
                 trace['x'] = x;
@@ -102,10 +103,12 @@ export class DanfoNodePlotter {
                     });
 
                     if ('x' in this_config) {
+                        // @ts-ignore
                         trace['x'] = this.ndframe[this_config['x']].values;
                         trace['y'] = this.ndframe[c_name].values;
                         trace['name'] = c_name;
                     } else {
+                        // @ts-ignore
                         trace['y'] = this.ndframe[this_config['y']].values;
                         trace['x'] = this.ndframe[c_name].values;
                         trace['name'] = c_name;
@@ -166,7 +169,9 @@ export class DanfoNodePlotter {
                     throw Error(`Column Error: ${this_config['y']} not found in columns`);
                 }
 
+                // @ts-ignore
                 const x = this.ndframe[this_config['x']].values;
+                // @ts-ignore
                 const y = this.ndframe[this_config['y']].values;
                 const trace = {};
                 trace['x'] = x;
@@ -188,8 +193,10 @@ export class DanfoNodePlotter {
                 });
 
                 if ('x' in this_config) {
+                    // @ts-ignore
                     trace['y'] = this.ndframe[this_config['x']].values;
                 } else {
+                    // @ts-ignore
                     trace['y'] = this.ndframe[this_config['y']].values;
                 }
 
@@ -248,7 +255,9 @@ export class DanfoNodePlotter {
                     throw Error(`Column Error: ${this_config['y']} not found in columns`);
                 }
 
+                // @ts-ignore
                 const x = this.ndframe[this_config['x']].values;
+                // @ts-ignore
                 const y = this.ndframe[this_config['y']].values;
                 const trace = {};
                 trace['x'] = x;
@@ -272,9 +281,11 @@ export class DanfoNodePlotter {
 
                 if ('x' in this_config) {
                     trace['y'] = this.ndframe.index;
+                    //@ts-ignore
                     trace['x'] = this.ndframe[this_config['x']].values;
                 } else {
                     trace['x'] = this.ndframe.index;
+                    // @ts-ignore
                     trace['y'] = this.ndframe[this_config['y']].values;
                 }
 
@@ -339,6 +350,7 @@ export class DanfoNodePlotter {
                     trace[param] = config[param];
                 }
             });
+            // @ts-ignore
             trace['y'] = this.ndframe[this_config['y']].values;
             trace['type'] = 'histogram';
             generatePlot([trace], this_config, this.div);
@@ -395,7 +407,9 @@ export class DanfoNodePlotter {
 
             const data = [
                 {
+                    // @ts-ignore
                     values: this.ndframe[this_config['values']].values,
+                    // @ts-ignore
                     labels: this.ndframe[this_config['labels']].values,
                     type: 'pie',
                     name: this_config['labels'],
@@ -414,10 +428,11 @@ export class DanfoNodePlotter {
             }
 
             if ('row_pos' in this_config) {
+                // @ts-ignore
                 if (this_config['row_pos'].length != cols_to_plot.length - 1) {
                     throw Error(
-                        `Lenght of row_pos array must be equal to number of columns. Got ${
-                            this_config['row_pos'].length
+                        //@ts-ignore
+                        `Lenght of row_pos array must be equal to number of columns. Got ${this_config['row_pos'].length
                         }, expected ${cols_to_plot.length - 1}`
                     );
                 }
@@ -432,10 +447,11 @@ export class DanfoNodePlotter {
             }
 
             if ('col_pos' in this_config) {
+                //@ts-ignore
                 if (this_config['col_pos'].length != cols_to_plot.length - 1) {
                     throw Error(
-                        `Lenght of col_pos array must be equal to number of columns. Got ${
-                            this_config['col_pos'].length
+                        // @ts-ignore
+                        `Lenght of col_pos array must be equal to number of columns. Got ${this_config['col_pos'].length
                         }, expected ${cols_to_plot.length - 1}`
                     );
                 }
@@ -507,7 +523,9 @@ export class DanfoNodePlotter {
                     throw Error(`Column Error: ${this_config['y']} not found in columns`);
                 }
 
+                // @ts-ignore
                 const x = this.ndframe[this_config['x']].values;
+                // @ts-ignore
                 const y = this.ndframe[this_config['y']].values;
                 const trace = {};
                 trace['x'] = x;
@@ -529,6 +547,7 @@ export class DanfoNodePlotter {
                 });
 
                 if ('x' in this_config) {
+                    // @ts-ignore
                     trace['x'] = this.ndframe[this_config['x']].values;
                     trace['y'] = this.ndframe.index;
                     trace['type'] = 'box';
@@ -592,7 +611,9 @@ export class DanfoNodePlotter {
                     throw Error(`Column Error: ${this_config['y']} not found in columns`);
                 }
 
+                // @ts-ignore
                 const x = this.ndframe[this_config['x']].values;
+                // @ts-ignore
                 const y = this.ndframe[this_config['y']].values;
                 const trace = {};
                 trace['x'] = x;
@@ -614,6 +635,7 @@ export class DanfoNodePlotter {
                 });
 
                 if ('x' in this_config) {
+                    // @ts-ignore
                     trace['x'] = this.ndframe[this_config['x']].values;
                     trace['y'] = this.ndframe.index;
                     trace['type'] = 'violin';
@@ -661,6 +683,7 @@ export class DanfoNodePlotter {
         let cols_2_show;
 
         if ('columns' in this_config) {
+            // @ts-ignore
             this_config['columns'].forEach((cname) => {
                 if (!this.ndframe.column_names.includes(cname)) {
                     throw Error(
