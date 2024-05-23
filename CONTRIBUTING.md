@@ -5,8 +5,8 @@
 
 ### Prerequisites
 
-1. [Node.js](https://nodejs.org/) 14
-1. npm 6.13.4
+1. [Node.js](https://nodejs.org/) 18
+1. npm >= 10
 1. Windows, macOS, or Linux
 1. [Visual Studio Code](https://code.visualstudio.com/)
 1. The following VS Code extensions:
