@@ -347,7 +347,7 @@
         "compile:extension:webpack": "webpack --config=build/webpack/webpack.extension.config.js",
         "lint": "eslint src/client --ext ts && eslint src/extension --ext ts && eslint build --ext js",
         "lint-format": "npx prettier 'src/**/*.ts*' --check && npx prettier 'build/**/*.js' --check",
-        "package": "vsce package --yarn -o node-notebooks.vsix",
+        "package": "vsce package -o node-notebooks.vsix",
         "test": "node ./out/test/runTest.js",
         "prettier-fix": "prettier 'src/**/*.ts*' --write && prettier 'build/**/*.js' --write",
         "download-api": "npx @vscode/dts dev",
