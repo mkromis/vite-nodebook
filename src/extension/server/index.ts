@@ -35,9 +35,10 @@ function connectToServer(port: number) {
     const connection = new WebSocket(url);
     logMessage('connecting');
     connection.on('open', () => {
-        logMessage('initialized');
+        logMessage('initialize');
         ws.resolve(connection);
         initializeComms(connection);
+        logMessage('initialized')
     });
 
     connection.on('error', (error) => {
