@@ -29,9 +29,9 @@ export class Debugger implements DebugAdapterTracker {
         // VS Code -> Debug Adapter
         visitSources(
             message,
-            (source) => {
+            async (source) => {
                 if (source.path) {
-                    const cellPath = this.dumpCell(source.path);
+                    const cellPath = await this.dumpCell(source.path);
                     if (cellPath) {
                         source.path = cellPath;
                     }
@@ -135,14 +135,14 @@ export class Debugger implements DebugAdapterTracker {
     /**
      * Store cell in temporary file and return its path or undefined if uri does not denote a cell.
      */
-    private dumpCell(uri: string): string | undefined {
+    private async dumpCell(uri: string): Promise<string | undefined> {
         try {
             const cellUri = Uri.parse(uri, true);
             if (cellUri.scheme === 'vscode-notebook-cell') {
                 // find cell in document by matching its URI
                 const cell = this.document.getCells().find((c) => c.document.uri.toString() === uri);
                 if (cell) {
-                    return Compiler.getOrCreateCodeObject(cell).sourceFilename;
+                    return (await Compiler.getOrCreateCodeObject(cell)).sourceFilename;
                 }
             }
         } catch (e) {

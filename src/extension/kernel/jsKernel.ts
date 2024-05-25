@@ -138,7 +138,7 @@ export class JavaScriptKernel implements IDisposable {
         task.executionOrder = getNextExecutionOrder(task.cell.notebook);
         let code: CodeObject;
         try {
-            code = Compiler.getOrCreateCodeObject(task.cell);
+            code = await Compiler.getOrCreateCodeObject(task.cell);
         } catch (ex: unknown) {
             console.error(`Failed to generate code object`, ex);
             const error = new Error(`Failed to generate code object, ${(ex as Partial<Error> | undefined)?.message}`);
