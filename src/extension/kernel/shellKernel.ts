@@ -10,8 +10,8 @@ import {
 import { getNotebookCwd, registerDisposable } from '../utils';
 import { CellExecutionState } from './types';
 import { spawn } from 'child_process';
-import type { Terminal } from 'xterm';
-import type { SerializeAddon } from 'xterm-addon-serialize';
+import type { Terminal } from '@xterm/xterm';
+import type { SerializeAddon } from '@xterm/addon-serialize';
 import * as os from 'os';
 import * as tmp from 'tmp';
 import * as fs from 'fs';
@@ -338,9 +338,9 @@ class TerminalRenderer {
         const oldSelf = oldSelfExisted ? glob.self : undefined;
         glob.self = glob;
         // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const xterm = require('xterm') as typeof import('xterm');
+        const xterm = require('xterm') as typeof import('@xterm/xterm');
         // eslint-disable-next-line @typescript-eslint/no-var-requires
-        const { SerializeAddon } = require('xterm-addon-serialize') as typeof import('xterm-addon-serialize');
+        const { SerializeAddon } = require('xterm-addon-serialize') as typeof import('@xterm/addon-serialize');
         if (oldSelfExisted) {
             glob.self = oldSelf;
         } else {

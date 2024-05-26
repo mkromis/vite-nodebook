@@ -238,11 +238,11 @@ export namespace Compiler {
         }
         return path.dirname(notebook.uri.fsPath);
     }
-    export function getOrCreateCodeObject(
+    export async function getOrCreateCodeObject(
         cell: NotebookCell,
         code = cell.document.getText(),
         supportBreakingOnExceptionsInDebugger: boolean = true
-    ): CodeObject {
+    ): Promise<CodeObject> {
         try {
             // Parser fails when we have comments in the last line, hence just add empty line.
             code = `${code}${EOL}`;
@@ -326,7 +326,7 @@ newDf.plot("").line({ columns: ["AAPL.Open", "AAPL.High"], layout })
             // Update the source to account for top level awaits & other changes, etc.
             const sourceMap = Buffer.from(sourceMapLine.substring(sourceMapLine.indexOf(',') + 1), 'base64').toString();
             const sourceMapInfo = { original: sourceMap, updated: '' };
-            transpiledCode = replaceTopLevelConstWithVar(
+            transpiledCode = await replaceTopLevelConstWithVar(
                 cell,
                 transpiledCode,
                 sourceMapInfo,
@@ -356,7 +356,7 @@ newDf.plot("").line({ columns: ["AAPL.Open", "AAPL.High"], layout })
             updateCodeObject(details, cell, transpiledCode, updatedSourceMap);
             const originalToGenerated = new Map<number, Map<number, MappingItem>>();
             const generatedToOriginal = new Map<number, Map<number, MappingItem>>();
-            new SourceMapConsumer(updatedRawSourceMap).eachMapping((mapping) => {
+            (await new SourceMapConsumer(updatedRawSourceMap)).eachMapping((mapping) => {
                 let maps = originalToGenerated.get(mapping.originalLine) || new Map<number, MappingItem>();
                 originalToGenerated.set(mapping.originalLine, maps);
                 maps.set(mapping.originalColumn, mapping);
@@ -431,7 +431,7 @@ image
  * Running the cell again will cause errors.
  * Solution, convert const to var.
  */
-function replaceTopLevelConstWithVar(
+async function replaceTopLevelConstWithVar(
     cell: NotebookCell,
     source: string,
     sourceMap: { original?: string; updated?: string },
@@ -444,13 +444,13 @@ function replaceTopLevelConstWithVar(
 
     const result = processTopLevelAwait(expectedImports, source, supportBreakingOnExceptionsInDebugger);
     try {
-        updateCodeAndAdjustSourceMaps(result!.linesUpdated, sourceMap);
+        await updateCodeAndAdjustSourceMaps(result!.linesUpdated, sourceMap);
     } catch (ex) {
         console.error(`Failed to adjust source maps`, ex);
     }
     return result!.updatedCode;
 }
-function updateCodeAndAdjustSourceMaps(
+async function updateCodeAndAdjustSourceMaps(
     linesUpdated: Map<
         LineNumber,
         { adjustedColumns: Map<OldColumn, NewColumn>; firstOriginallyAdjustedColumn?: number; totalAdjustment: number }
@@ -468,7 +468,7 @@ function updateCodeAndAdjustSourceMaps(
         file: path.basename(originalSourceMap.file || ''),
         sourceRoot: path.dirname(originalSourceMap.sourceRoot || '')
     });
-    const original = new SourceMapConsumer(originalSourceMap);
+    const original = await new SourceMapConsumer(originalSourceMap);
     original.eachMapping((mapping) => {
         const newMapping: MappingItem = {
             generatedColumn: mapping.generatedColumn,

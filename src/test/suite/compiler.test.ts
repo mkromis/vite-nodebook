@@ -154,7 +154,7 @@ suite('Top level await compiler tests', () => {
             testCases.forEach(([code, expected]) => {
                 test(`test - ${code}`, async () => {
                     const nb = await createNotebook(code);
-                    const codeObject = Compiler.getOrCreateCodeObject(nb.cellAt(0), code, supportsExceptionBreakpoints);
+                    const codeObject = await Compiler.getOrCreateCodeObject(nb.cellAt(0), code, supportsExceptionBreakpoints);
 
                     // When supporting breakpoints in debugger, all we do is wrap the code in a try..catch..
                     if (supportsExceptionBreakpoints && expected.includes('})()')) {

@@ -33,7 +33,7 @@ export type OldColumn = number;
 export type NewColumn = number;
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-const noop = () => {};
+const noop = () => { };
 const visitorsWithoutAncestors = {
     ClassDeclaration(node, state: State, c) {
         if (isTopLevelDeclaration(state)) {
@@ -60,13 +60,13 @@ const visitorsWithoutAncestors = {
             adjustment.totalAdjustment += textToInsert.length;
         }
 
-        walk.base.ClassDeclaration(node, state, c);
+        walk.base.ClassDeclaration!(node, state, c);
     },
     ForOfStatement(node, state: State, c) {
         if (node.await === true) {
             state.containsAwait = true;
         }
-        walk.base.ForOfStatement(node, state, c);
+        walk.base.ForOfStatement!(node, state, c);
     },
     FunctionDeclaration(node, state) {
         const textToInsert = `this.${node.id.name} = ${node.id.name}; `;
@@ -96,11 +96,11 @@ const visitorsWithoutAncestors = {
     MethodDefinition: noop,
     AwaitExpression(node, state: State, c) {
         state.containsAwait = true;
-        walk.base.AwaitExpression(node, state, c);
+        walk.base.AwaitExpression!(node, state, c);
     },
     ReturnStatement(node, state: State, c) {
         state.containsReturn = true;
-        walk.base.ReturnStatement(node, state, c);
+        walk.base.ReturnStatement!(node, state, c);
     },
     VariableDeclaration(node: VariableDeclaration, state: State, c) {
         const variableKind = node.kind;
@@ -194,7 +194,7 @@ const visitorsWithoutAncestors = {
             });
         }
 
-        walk.base.VariableDeclaration(node as any, state, c);
+        walk.base.VariableDeclaration!(node as any, state, c);
     }
 };
 
@@ -382,15 +382,15 @@ export type VariableDeclaration = BaseNode<'VariableDeclaration'> & {
 };
 type VariableDeclarator = BaseNode<'VariableDeclarator'> & {
     id:
-        | (BaseNode<string> & { name: string; loc: BodyLocation; type: 'Identifier' | '<other>' })
-        | (BaseNode<'ObjectPattern'> & {
-              name: string;
-              properties: { type: 'Property'; key: { name: string }; value: { name: string } }[];
-          })
-        | (BaseNode<'ArrayPattern'> & {
-              name: string;
-              elements: { name: string; type: 'Identifier' }[];
-          });
+    | (BaseNode<string> & { name: string; loc: BodyLocation; type: 'Identifier' | '<other>' })
+    | (BaseNode<'ObjectPattern'> & {
+        name: string;
+        properties: { type: 'Property'; key: { name: string }; value: { name: string } }[];
+    })
+    | (BaseNode<'ArrayPattern'> & {
+        name: string;
+        elements: { name: string; type: 'Identifier' }[];
+    });
     init?: { loc: BodyLocation };
     loc: BodyLocation;
 };
@@ -410,14 +410,14 @@ type BlockStatement = {
 };
 type ExpressionStatement = BaseNode<'ExpressionStatement'> & {
     expression:
+    | (BaseNode<'CallExpression'> & {
+        callee:
+        | (BaseNode<'ArrowFunctionExpression'> & { body: BlockStatement })
         | (BaseNode<'CallExpression'> & {
-              callee:
-                  | (BaseNode<'ArrowFunctionExpression'> & { body: BlockStatement })
-                  | (BaseNode<'CallExpression'> & {
-                        body: BlockStatement;
-                        callee: { name: string; loc: BodyLocation };
-                    });
-          })
-        | BaseNode<'other'>;
+            body: BlockStatement;
+            callee: { name: string; loc: BodyLocation };
+        });
+    })
+    | BaseNode<'other'>;
     loc: BodyLocation;
 };

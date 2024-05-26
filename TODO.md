@@ -1,3 +1,9 @@
+# Obsolete
+Must currently use npm.
+
+Brokend depends currently.
+
+# TODO
 1. Use tsconfig from users workspace folder, closest to the ipynb file.
 3. Interactive widow will be a great addition
 4. Better way to view image tensors (helper to generate images & probably zoom in - or just use Jupyter's tensor visualizer)
@@ -13,6 +19,7 @@ At the end of the day the shell is setup by the user.
 13. Fix prettier, etc
 14. Links in error output
 15. Tests
+
 # Bugs
 * Enable `supportBreakingOnExceptionsInDebugger`
     For break point exceptions

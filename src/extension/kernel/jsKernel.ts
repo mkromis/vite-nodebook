@@ -10,7 +10,7 @@ import {
     workspace
 } from 'vscode';
 import { IDisposable } from '../types';
-import * as getPort from 'get-port';
+import getPort from 'get-port';
 import * as WebSocket from 'ws';
 import { CellExecutionState } from './types';
 import * as path from 'path';
@@ -138,7 +138,7 @@ export class JavaScriptKernel implements IDisposable {
         task.executionOrder = getNextExecutionOrder(task.cell.notebook);
         let code: CodeObject;
         try {
-            code = Compiler.getOrCreateCodeObject(task.cell);
+            code = await Compiler.getOrCreateCodeObject(task.cell);
         } catch (ex: unknown) {
             console.error(`Failed to generate code object`, ex);
             const error = new Error(`Failed to generate code object, ${(ex as Partial<Error> | undefined)?.message}`);
