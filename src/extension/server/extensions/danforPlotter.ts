@@ -376,6 +376,8 @@ export class DanfoNodePlotter {
     }
 
     pie(config = {}) {
+        // TODO: Fix Params
+        //XXX! Remove ts-ignore by providing type
         const ret_params = this.__get_plot_params(config);
 
         const this_config = ret_params[0];
@@ -432,7 +434,7 @@ export class DanfoNodePlotter {
                 if (this_config['row_pos'].length != cols_to_plot.length - 1) {
                     throw Error(
                         //@ts-ignore
-                        `Lenght of row_pos array must be equal to number of columns. Got ${this_config['row_pos'].length
+                        `Length of row_pos array must be equal to number of columns. Got ${this_config['row_pos'].length
                         }, expected ${cols_to_plot.length - 1}`
                     );
                 }
