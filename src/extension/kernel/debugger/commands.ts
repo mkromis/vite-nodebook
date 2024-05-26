@@ -34,6 +34,6 @@ async function startDebugger(uri: Uri) {
         throw new Error('Notebook not found');
     }
     const controller = Controller.nodeNotebookController;
-    const kernel = JavaScriptKernel.getOrCreate(notebook, controller);
+    const kernel = await JavaScriptKernel.getOrCreate(notebook, controller);
     return DebuggerFactory.start(notebook, kernel);
 }

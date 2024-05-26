@@ -65,7 +65,10 @@ export class JavaScriptKernel implements IDisposable {
     private lastStdOutput?: CellOutput;
     private waitingForLastOutputMessage?: { expectedString: string; deferred: Deferred<void> };
     private readonly cwd?: string;
-    constructor(private readonly notebook: NotebookDocument, private readonly controller: NotebookController) {
+    constructor(
+        private readonly notebook: NotebookDocument,
+        private readonly controller: NotebookController
+    ) {
         this.cwd = getNotebookCwd(notebook);
     }
     public static get(notebook: NotebookDocument) {
@@ -82,14 +85,18 @@ export class JavaScriptKernel implements IDisposable {
             }
         });
     }
-    public static getOrCreate(notebook: NotebookDocument, controller: NotebookController) {
+    public static async getOrCreate(notebook: NotebookDocument, controller: NotebookController) {
+        ServerLogger.appendLine('getOrCreate');
         let kernel = kernels.get(notebook);
         if (kernel) {
+            ServerLogger.appendLine('Found kernel');
             return kernel;
         }
+        ServerLogger.appendLine('New kernel started');
         kernel = new JavaScriptKernel(notebook, controller);
         kernels.set(notebook, kernel);
-        void kernel.start();
+        await kernel.start();
+        ServerLogger.appendLine('kernel started');
         return kernel;
     }
     public dispose() {
@@ -169,30 +176,36 @@ export class JavaScriptKernel implements IDisposable {
             writeConfigurationToTempFile()
         ]);
         this.server = new WebSocket.Server({ port });
-        this.server.on('connection', (ws) => {
+        this.server.on('connection', async (ws) => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             ws.on('message', (message: any) => {
-                if (typeof message === 'string' && message.startsWith('{') && message.endsWith('}')) {
+                ServerLogger.appendLine(`ws:message ${message}`)
+                const value = message.toString()
+                if (value.startsWith('{') && value.endsWith('}')) {
                     try {
-                        const msg: ResponseType = JSON.parse(message);
+                        const msg: ResponseType = JSON.parse(value)
                         this.onMessage(msg);
-                        if (msg.type === 'initialized') {
+                        //if (msg.type === 'initialized') { // was msg.type
+                        if (msg.type === 'logMessage' && msg.message === 'initialized') {
+                            ServerLogger.appendLine('ws:initialized start')
                             this.startHandlingStreamOutput = true;
                             this._debugPort.resolve(debugPort);
                             this.initialized.resolve();
+                            ServerLogger.appendLine('ws:initialized')
                         }
                     } catch (ex) {
                         ServerLogger.appendLine(`Failed to handle message ${message}`);
                     }
                 } else {
-                    console.log('received: %s', message);
+                    ServerLogger.appendLine('ws:received other: %s', message);
                 }
             });
 
-            void this.sendMessage({ type: 'initialize', requestId: '' });
+            await this.sendMessage({ type: 'initialize', requestId: '' });
             this.webSocket.resolve(ws);
         });
         this.server.on('listening', () => {
+            ServerLogger.appendLine('server:listening')
             if (this.disposed) {
                 return;
             }
@@ -204,7 +217,6 @@ export class JavaScriptKernel implements IDisposable {
                 'index.js'
             );
             ServerLogger.appendLine(`Starting node ${serverFile} & listening on ${debugPort} & websock on ${port}`);
-
             this.serverProcess = spawn(
                 'node',
                 [`--inspect=${debugPort}`, serverFile, `--port=${port}`, `--config=${quote([configFile])}`],
@@ -214,12 +226,13 @@ export class JavaScriptKernel implements IDisposable {
                 }
             );
             this.serverProcess.on('close', (code: number) => {
-                ServerLogger.appendLine(`Server Exited, code = ${code}`);
+                ServerLogger.appendLine(`serverProcess:close code = ${code}`);
             });
             this.serverProcess.on('error', (error) => {
-                ServerLogger.appendLine('Server Exited, error:', error);
+                ServerLogger.appendLine('serverProcess:error, error:', error);
             });
             this.serverProcess.stderr?.on('data', (data: Buffer | string) => {
+                ServerLogger.appendLine('serverProcess:data')
                 if (this.startHandlingStreamOutput) {
                     const output = this.getCellOutput();
                     if (output) {
@@ -236,6 +249,7 @@ export class JavaScriptKernel implements IDisposable {
                 }
             });
             this.serverProcess.stdout?.on('data', (data: Buffer | string) => {
+                ServerLogger.appendLine('serverProcess.stdout:data')
                 data = data.toString();
                 if (this.startHandlingStreamOutput) {
                     const output = this.getCellOutput();
@@ -256,15 +270,25 @@ export class JavaScriptKernel implements IDisposable {
             });
         });
     }
+
+    /**
+     * This sends a message to the running kernal via websocket
+     * @param message Message to send
+     */
     private async sendMessage(message: RequestType) {
+        ServerLogger.appendLine(`sendMessage got ${message.type} with ${JSON.stringify(message)}`);
         await this.start();
+        ServerLogger.appendLine('started done')
         const ws = await this.webSocket.promise;
-        ws.send(JSON.stringify(message));
+        ServerLogger.appendLine(`ws listener count ${ws.listenerCount}`)
+        ws.send(JSON.stringify(message), (error) => {
+            ServerLogger.appendLine(`sendMessage Error ${error?.name}:${error?.message}:${error?.stack}`);
+        });
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private onMessage(message: ResponseType) {
-        console.info(`Ext got message ${message.type} with ${message}`);
+        ServerLogger.appendLine(`onMessage got ${message.type} with ${JSON.stringify(message)}`);
         switch (message.type) {
             case 'pong':
                 break;
@@ -277,6 +301,7 @@ export class JavaScriptKernel implements IDisposable {
                 break;
             }
             case 'replRestarted': {
+                ServerLogger.appendLine('JavaScript/TypeScript Notebook Kernel was restarted');
                 void window.showErrorMessage('JavaScript/TypeScript Notebook Kernel was restarted');
                 break;
             }

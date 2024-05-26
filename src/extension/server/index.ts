@@ -33,7 +33,7 @@ if (!port) {
 function connectToServer(port: number) {
     const url = `ws://localhost:${port}`;
     const connection = new WebSocket(url);
-    logMessage('connecting');
+    logMessage(`connecting to ${url}`);
     connection.on('open', () => {
         logMessage('initialize');
         ws.resolve(connection);

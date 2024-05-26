@@ -3,10 +3,14 @@ import { IDisposable } from './types';
 import { registerDisposable } from './utils';
 import * as util from 'util';
 
+/**
+ * This creates a output panel in vscode output view.
+ */
 export class ServerLogger implements IDisposable {
     private static output: OutputChannel;
     constructor() {
         ServerLogger.output = window.createOutputChannel('TypeScript Kernel');
+        ServerLogger.output.appendLine('ServerLogger Created')
     }
     public static register() {
         registerDisposable(new ServerLogger());
@@ -23,6 +27,7 @@ export class ServerLogger implements IDisposable {
     }
 
     public dispose() {
+        ServerLogger.output.appendLine("Closing output")
         ServerLogger.output.dispose();
     }
 }

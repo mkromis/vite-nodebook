@@ -127,7 +127,7 @@ export class CellExecutionQueue implements IDisposable {
             }
             case 'javascript':
             case 'typescript': {
-                const kernel = JavaScriptKernel.getOrCreate(task.cell.notebook, this.controller);
+                const kernel = await JavaScriptKernel.getOrCreate(task.cell.notebook, this.controller);
                 return kernel.runCell(task, token.token);
             }
             case 'html': {
