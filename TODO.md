@@ -1,9 +1,13 @@
-# Obsolete
+# TODO
+
+## Obsolete
+
 Must currently use npm.
 
 Brokend depends currently.
 
-# TODO
+## TODO
+
 1. Use tsconfig from users workspace folder, closest to the ipynb file.
 3. Interactive widow will be a great addition
 4. Better way to view image tensors (helper to generate images & probably zoom in - or just use Jupyter's tensor visualizer)
@@ -20,13 +24,15 @@ At the end of the day the shell is setup by the user.
 14. Links in error output
 15. Tests
 
-# Bugs
+## Bugs
+
 * Enable `supportBreakingOnExceptionsInDebugger`
     For break point exceptions
 * Fix stack traces in exceptions
 
 * Following code fails
-```
+
+```javascript
 console.log(typeof some)
 var {x}={x:'xyz1234'},y,some = ' ',([a,b]=[1,2]);
 doIt();
@@ -37,19 +43,20 @@ doIt();
 * Display message if we fail to start node process (currently just hangs)
 * Magics must be excluded from being executed as JS code (else parser will fall over & hang)
 
-# Telemetry
+## Telemetry
+
 * See whether we need variable hoisting
 (easy, parse the code & check if we have classes/functions)
 * Variable hoisting
-    * At worst, we notify users that this will not work when debugging (yuck)
-    * Or we open a dummy cell & start debugging that code (yuck)
+  * At worst, we notify users that this will not work when debugging (yuck)
+  * Or we open a dummy cell & start debugging that code (yuck)
 
+## Known issues
 
-
-# Known issues
 * Hoisting is always an issue (after all its just hacky, we're changing user code)
 * Printing value of last expression vs `console.log`
 See below
+
 ```typescript
     var s = await Promise.resolve(1);
     function bye(){
@@ -58,17 +65,20 @@ See below
     bye();
     s
 ```
+
 When you run this, the value `1` will be displayed first and then we'll see `Bye`.
 This is because we get output from repl before we get output from stdout of the process.
-** SOLUTION **
+
+## SOLUTION
+
 * After we get the result from the repl, we can send a `console.log(<GUID>)`, this will
 tell the UI that we have some output that will be coming.
 Next we sent out result via websockets. We should not display the output we got from the socket
 until we've received the `<GUID>` from `process.stdout`, once we wait, we know any `console.log` the
 user sent would have been received & printed in the right order.
 Thus if we look at the above example, the output would be in the right order as follows:
-```
+
+```Text
 Bye
 1
 ```
-

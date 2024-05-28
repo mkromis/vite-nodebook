@@ -1,6 +1,5 @@
 # Contributing to the Notebook Renderers extension for Visual Studio Code
 
-
 ## Contributing a pull request
 
 ### Prerequisites
@@ -42,9 +41,22 @@ TypeScript errors and warnings will be displayed in the `Problems` window of Vis
 
 Steps to build the extension on your machine once you've cloned the repo:
 
-```bash
+```shell
 > npm install -g vsce
 > npm ci
 > npm run package
 ```
 
+## Install Problem
+
+If there are issues loading tensorflow, and danfojs-node you may need to remove it from package.json, then add it later.
+
+```powershell
+> npm install -g vsce node-gyp
+# remove from @tensorflow/tfjs-vis from package.json
+> npm install --legacy-peer-deps
+# Everything should have installed without error, so add it back in
+> npm install --legacy-peer-deps @tensorflow/tfjs-vis@latest
+> npm run postinstall
+# then run build
+```
