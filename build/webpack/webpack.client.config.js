@@ -12,7 +12,7 @@ module.exports = {
     context: constants.ExtensionRootDir,
     entry: {
         tfjsvis: './src/client/index.ts',
-        tfjsvisRenderer: './src/client/tfvis.ts',
+        //tfjsvisRenderer: './src/client/tfvis.ts',
         plotGenerator: './src/client/plotGenerator.ts'
     },
     output: {

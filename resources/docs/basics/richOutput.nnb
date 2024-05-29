@@ -3,7 +3,7 @@
         {
             "language": "javascript",
             "source": [
-                "// This module is built into the notebook. You do not need to install this.\n// You could install this to get code completion (i.e. intellisense).\n\nconst {display} = require('node-kernel');"
+                "// This module is built into the notebook. You do not need to install this.\r\n// You could install this to get code completion (i.e. intellisense).\r\n\r\nconst {display} = require('node-kernel');"
             ],
             "outputs": []
         },
@@ -17,7 +17,7 @@
         {
             "language": "javascript",
             "source": [
-                "// Plain text outputs (boring, same as `console.log`)\ndisplay.text('Hello World');"
+                "// Plain text outputs (boring, same as `console.log`)\r\ndisplay.text('Hello World');"
             ],
             "outputs": []
         },
@@ -31,7 +31,7 @@
         {
             "language": "javascript",
             "source": [
-                "// Use javascript to generate a list of markdown bullet points.\nconst toc = ['Index', 'Getting Started', 'Help', 'Glossary'];\nconst items = toc.map(item => `* ${item}`).join('\\n');\ndisplay.markdown('# Markdown generated in js and displayed in notebooks\\n' + items);"
+                "// Use javascript to generate a list of markdown bullet points.\r\nconst toc = ['Index', 'Getting Started', 'Help', 'Glossary'];\r\nconst items = toc.map(item => `* ${item}`).join('\\n');\r\ndisplay.markdown('# Markdown generated in js and displayed in notebooks\\n' + items);"
             ],
             "outputs": []
         },
@@ -45,21 +45,21 @@
         {
             "language": "javascript",
             "source": [
-                "// Rich HTML output.\nconst buttonText = 'Click me';\ndisplay.html(`\n    <button id='myButton'>${buttonText}</button>\n    <script type='text/javascript'>\n    (() => {\n        const btn = document.getElementById('myButton');\n        btn.addEventListener(\"click\", () => btn.innerText = 'You clicked the button');\n    })();\n    </script>\n`)"
+                "// Rich HTML output.\r\nconst buttonText = 'Click me';\r\ndisplay.html(`\r\n    <button id='myButton'>${buttonText}</button>\r\n    <script type='text/javascript'>\r\n    (() => {\r\n        const btn = document.getElementById('myButton');\r\n        btn.addEventListener(\"click\", () => btn.innerText = 'You clicked the button');\r\n    })();\r\n    </script>\r\n`)"
             ],
             "outputs": []
         },
         {
             "language": "html",
             "source": [
-                "<!-- HTML cells can be executed and displayed (even with javascript/css) -->\n<div>\n    This is plain HTML with some divs and buttons, make note of the language of this cell, its `HTML`.\n    <div id='myOutput' style='color:red; background-color: yellow; font-size: 2em;'></div><br>\n    <button id='anotherButton'>This is yet another button</button>\n</div>"
+                "<!-- HTML cells can be executed and displayed (even with javascript/css) -->\r\n<div>\r\n    This is plain HTML with some divs and buttons, make note of the language of this cell, its `HTML`.\r\n    <div id='myOutput' style='color:red; background-color: yellow; font-size: 2em;'></div><br>\r\n    <button id='anotherButton'>This is yet another button</button>\r\n</div>"
             ],
             "outputs": []
         },
         {
             "language": "javascript",
             "source": [
-                "// In node.js we can generate some JavaScript  that will interact with the above HTML.\ndisplay.javascript(`\n    document.getElementById('anotherButton').addEventListener(\"click\", () => {\n        console.log('Clicked another button');\n        document.getElementById('myOutput').innerHTML = 'You clicked the button';\n    });\n`);\n\n// Run this cell, and click the button in the previous cell."
+                "// In node.js we can generate some JavaScript  that will interact with the above HTML.\r\ndisplay.javascript(`\r\n    document.getElementById('anotherButton').addEventListener(\"click\", () => {\r\n        console.log('Clicked another button');\r\n        document.getElementById('myOutput').innerHTML = 'You clicked the button';\r\n    });\r\n`);\r\n\r\n// Run this cell, and click the button in the previous cell."
             ],
             "outputs": []
         },
@@ -87,21 +87,21 @@
         {
             "language": "typescript",
             "source": [
-                "const svgImage = await fetch('https://nodejs.org/static/images/logo.svg').then(res => res.text());\nconsole.log(`svgImage is of type '${typeof svgImage}`);\nsvgImage\n\n// Note, you can switch the mime type and view the raw text representation of the content."
+                "const svgImage = await fetch('https://nodejs.org/static/images/logo.svg').then(res => res.text());\r\nconsole.log(`svgImage is of type '${typeof svgImage}`);\r\nsvgImage\r\n\r\n// Note, you can switch the mime type and view the raw text representation of the content."
             ],
             "outputs": []
         },
         {
             "language": "typescript",
             "source": [
-                "const res = await fetch('https://github.githubassets.com/images/modules/logos_page/Octocat.png');\nconst arrayBuffer = await res.arrayBuffer();\nconst buffer = Buffer.from(arrayBuffer)\nbuffer;\n\n// The format of the image is detected automatically and displayed in the output."
+                "const res = await fetch('https://github.githubassets.com/images/modules/logos_page/Octocat.png');\r\nconst arrayBuffer = await res.arrayBuffer();\r\nconst buffer = Buffer.from(arrayBuffer)\r\nbuffer;\r\n\r\n// The format of the image is detected automatically and displayed in the output."
             ],
             "outputs": []
         },
         {
             "language": "typescript",
             "source": [
-                "// Base64 encoded images are also understood and displayed as images instead of base64 string.\n// If you wish to have a look at the base64 string, you can switch the mime types from the image to text.\n\nconst base64String = buffer.toString('base64');\nconst encodedImages = `data:image/png;base64,${base64String}`;\nencodedImages"
+                "// Base64 encoded images are also understood and displayed as images instead of base64 string.\r\n// If you wish to have a look at the base64 string, you can switch the mime types from the image to text.\r\n\r\nconst base64String = buffer.toString('base64');\r\nconst encodedImages = `data:image/png;base64,${base64String}`;\r\nencodedImages"
             ],
             "outputs": []
         },

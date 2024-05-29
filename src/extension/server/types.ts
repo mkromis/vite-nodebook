@@ -1,21 +1,21 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
 import type * as plotly from 'plotly.js';
-import type { Logs } from '@tensorflow/tfjs-layers/dist/logs';
-import { Layer } from '@tensorflow/tfjs-layers/dist/engine/topology';
-import { LayersModel } from '@tensorflow/tfjs-layers/dist/engine/training';
-import type {
-    BarChartOpts,
-    ConfusionMatrixData,
-    ConfusionMatrixOptions,
-    HeatmapOptions,
-    HistogramOpts,
-    SurfaceInfo,
-    TableData,
-    TypedArray,
-    XYPlotData,
-    XYPlotOptions
-} from '@tensorflow/tfjs-vis';
+// import type { Logs } from '@tensorflow/tfjs-layers/dist/logs';
+// import { Layer } from '@tensorflow/tfjs-layers/dist/engine/topology';
+// import { LayersModel } from '@tensorflow/tfjs-layers/dist/engine/training';
+// import type {
+//     BarChartOpts,
+//     ConfusionMatrixData,
+//     ConfusionMatrixOptions,
+//     HeatmapOptions,
+//     HistogramOpts,
+//     SurfaceInfo,
+//     TableData,
+//     TypedArray,
+//     XYPlotData,
+//     XYPlotOptions
+// } from '@tensorflow/tfjs-vis';
 
 export type Configuration = {
     registerTsNode: boolean;
@@ -96,7 +96,7 @@ export type ResponseType =
     | OutputResponse
     | PlotGenerated
     | ReadLineQuestionRequest
-    | TensorFlowVis;
+//| TensorFlowVis;
 export type LogMessage = BaseMessage<
     'logMessage',
     {
@@ -107,17 +107,17 @@ export type LogMessage = BaseMessage<
 export type RunCellResponse = BaseMessage<
     'cellExec',
     | {
-          result?: DisplayData;
-          success: true;
-          start: number;
-          end: number;
-      }
+        result?: DisplayData;
+        success: true;
+        start: number;
+        end: number;
+    }
     | {
-          ex: Error | { name?: string; message?: string; stack?: string };
-          success: false;
-          start: number;
-          end: number;
-      }
+        ex: Error | { name?: string; message?: string; stack?: string };
+        success: false;
+        start: number;
+        end: number;
+    }
 >;
 export type OutputResponse = BaseMessage<
     'output',
@@ -139,7 +139,7 @@ export type DisplayData =
     | JsonData
     | HtmlData
     | GeneratePlot
-    | TensorFlowVis
+    // | TensorFlowVis
     | MarkdownData
     | MultiMimeOutput;
 type MultiMimeOutput = BaseMessage<'multi-mime', { value: DisplayData[] }>;
@@ -167,155 +167,164 @@ type PlotGenerated = BaseMessage<
 >;
 
 // TensorFlow
-export type TensorFlowHistory = BaseMessage<
-    'tensorFlowVis',
-    {
-        request: 'history';
-        container: SurfaceInfo | string;
-        history: {};
-        metrics: string[];
-        opts?: {};
-    }
->;
-export type TensorFlowTable = BaseMessage<
-    'tensorFlowVis',
-    {
-        request: 'table';
-        container: SurfaceInfo | string;
-        data: TableData;
-        opts?: {
-            fontSize?: number;
-        };
-    }
->;
-export type TensorFlowHistogram = BaseMessage<
-    'tensorFlowVis',
-    {
-        request: 'histogram';
-        container: SurfaceInfo | string;
-        data:
-            | Array<{
-                  value: number;
-              }>
-            | number[]
-            | TypedArray;
-        opts?: HistogramOpts;
-    }
->;
-export type TensorFlowLineChart = BaseMessage<
-    'tensorFlowVis',
-    {
-        request: 'linechart';
-        container: SurfaceInfo | string;
-        data: XYPlotData;
-        opts?: XYPlotOptions;
-    }
->;
-export type TensorFlowScatterPlot = BaseMessage<
-    'tensorFlowVis',
-    {
-        request: 'scatterplot';
-        container: SurfaceInfo | string;
-        data: XYPlotData;
-        opts?: XYPlotOptions;
-    }
->;
-export type TensorFlowConfusionMatrix = BaseMessage<
-    'tensorFlowVis',
-    {
-        request: 'confusionmatrix';
-        container: SurfaceInfo | string;
-        data: ConfusionMatrixData;
-        opts?: ConfusionMatrixOptions;
-    }
->;
-export type TensorFlowHeatMap = BaseMessage<
-    'tensorFlowVis',
-    {
-        request: 'heatmap';
-        container: SurfaceInfo | string;
-        data: { spec: any; embedOpts: any };
-        opts?: HeatmapOptions;
-    }
->;
-export type TensorFlowBarChart = BaseMessage<
-    'tensorFlowVis',
-    {
-        request: 'barchart';
-        container: SurfaceInfo | string;
-        data: Array<{
-            index: number;
-            value: number;
-        }>;
-        opts?: BarChartOpts;
-    }
->;
-export type TensorFlowModelSummary = BaseMessage<
-    'tensorFlowVis',
-    {
-        request: 'modelsummary';
-        container: SurfaceInfo | string;
-        model: LayersModel;
-    }
->;
-export type TensorFlowRegisterFitCallback = BaseMessage<
-    'tensorFlowVis',
-    {
-        request: 'registerfitcallback';
-        container: SurfaceInfo | string;
-        metrics: string[];
-        opts?: {};
-    }
->;
-export type TensorFlowFitCallback = BaseMessage<
-    'tensorFlowVis',
-    {
-        request: 'fitcallback';
-        container: SurfaceInfo | string;
-        handler: string;
-        iteration: number;
-        log: Logs;
-    }
->;
-export type TensorFlowVis =
-    | BaseMessage<'tensorFlowVis', { request: 'setactivetab'; tabName: string }>
-    | BaseMessage<'tensorFlowVis', { request: 'show' }>
-    | TensorFlowRegisterFitCallback
-    | TensorFlowFitCallback
-    | TensorFlowHistory
-    | TensorFlowTable
-    | TensorFlowHistogram
-    | TensorFlowLineChart
-    | TensorFlowScatterPlot
-    | TensorFlowConfusionMatrix
-    | TensorFlowHeatMap
-    | TensorFlowBarChart
-    | TensorFlowModelSummary
-    | BaseMessage<
-          'tensorFlowVis',
-          {
-              request: 'perclassaccuracy';
-              container: SurfaceInfo | string;
-              classAccuracy: Array<{
-                  accuracy: number;
-                  count: number;
-              }>;
-              classLabels?: string[];
-          }
-      >
-    | BaseMessage<
-          'tensorFlowVis',
-          {
-              request: 'valuesdistribution';
-              container: SurfaceInfo | string;
-              tensor: { stats; values };
-          }
-      >
-    | BaseMessage<
-          'tensorFlowVis',
-          {
-              request: 'layer';
-              container: SurfaceInfo | string;
-              layer: Layer;
-          }
-      >;
+// export type TensorFlowHistory = BaseMessage<
+//     'tensorFlowVis',
+//     {
+//         request: 'history';
+//         container: SurfaceInfo | string;
+//         history: {};
+//         metrics: string[];
+//         opts?: {};
+//     }
+// >;
+// export type TensorFlowTable = BaseMessage<
+//     'tensorFlowVis',
+//     {
+//         request: 'table';
+//         container: SurfaceInfo | string;
+//         data: TableData;
+//         opts?: {
+//             fontSize?: number;
+//         };
+//     }
+// >;
+// export type TensorFlowHistogram = BaseMessage<
+//     'tensorFlowVis',
+//     {
+//         request: 'histogram';
+//         container: SurfaceInfo | string;
+//         data:
+//         | Array<{
+//             value: number;
+//         }>
+//         | number[]
+//         | TypedArray;
+//         opts?: HistogramOpts;
+//     }
+// >;
+// export type TensorFlowLineChart = BaseMessage<
+//     'tensorFlowVis',
+//     {
+//         request: 'linechart';
+//         container: SurfaceInfo | string;
+//         data: XYPlotData;
+//         opts?: XYPlotOptions;
+//     }
+// >;
+// export type TensorFlowScatterPlot = BaseMessage<
+//     'tensorFlowVis',
+//     {
+//         request: 'scatterplot';
+//         container: SurfaceInfo | string;
+//         data: XYPlotData;
+//         opts?: XYPlotOptions;
+//     }
+// >;
+// export type TensorFlowConfusionMatrix = BaseMessage<
+//     'tensorFlowVis',
+//     {
+//         request: 'confusionmatrix';
+//         container: SurfaceInfo | string;
+//         data: ConfusionMatrixData;
+//         opts?: ConfusionMatrixOptions;
+//     }
+// >;
+// export type TensorFlowHeatMap = BaseMessage<
+//     'tensorFlowVis',
+//     {
+//         request: 'heatmap';
+//         container: SurfaceInfo | string;
+//         data: { spec: any; embedOpts: any };
+//         opts?: HeatmapOptions;
+//     }
+// >;
+// export type TensorFlowBarChart = BaseMessage<
+//     'tensorFlowVis',
+//     {
+//         request: 'barchart';
+//         container: SurfaceInfo | string;
+//         data: Array<{
+//             index: number;
+//             value: number;
+//         }>;
+//         opts?: BarChartOpts;
+//     }
+// >;
+// export type TensorFlowModelSummary = BaseMessage<
+//     'tensorFlowVis',
+//     {
+//         request: 'modelsummary';
+//         container: SurfaceInfo | string;
+//         model: any;  // LayersModel; // TODO: Fix LayersModel type
+//     }
+// >;
+// export type TensorFlowRegisterFitCallback = BaseMessage<
+//     'tensorFlowVis',
+//     {
+//         request: 'registerfitcallback';
+//         container: SurfaceInfo | string;
+//         metrics: string[];
+//         opts?: {};
+//     }
+// >;
+// /**
+//  * Logs in which values can only be numbers.
+//  *
+//  * Used when calling client-provided custom callbacks.
+//  */
+// export type Logs = {
+//     [key: string]: number;
+// };
+
+// export type TensorFlowFitCallback = BaseMessage<
+//     'tensorFlowVis',
+//     {
+//         request: 'fitcallback';
+//         container: SurfaceInfo | string;
+//         handler: string;
+//         iteration: number;
+//         log: Logs;
+//     }
+// >;
+// export type TensorFlowVis =
+//     | BaseMessage<'tensorFlowVis', { request: 'setactivetab'; tabName: string }>
+//     | BaseMessage<'tensorFlowVis', { request: 'show' }>
+//     | TensorFlowRegisterFitCallback
+//     | TensorFlowFitCallback
+//     | TensorFlowHistory
+//     | TensorFlowTable
+//     | TensorFlowHistogram
+//     | TensorFlowLineChart
+//     | TensorFlowScatterPlot
+//     | TensorFlowConfusionMatrix
+//     | TensorFlowHeatMap
+//     | TensorFlowBarChart
+//     | TensorFlowModelSummary
+//     | BaseMessage<
+//         'tensorFlowVis',
+//         {
+//             request: 'perclassaccuracy';
+//             container: SurfaceInfo | string;
+//             classAccuracy: Array<{
+//                 accuracy: number;
+//                 count: number;
+//             }>;
+//             classLabels?: string[];
+//         }
+//     >
+//     | BaseMessage<
+//         'tensorFlowVis',
+//         {
+//             request: 'valuesdistribution';
+//             container: SurfaceInfo | string;
+//             tensor: { stats; values };
+//         }
+//     >
+//     | BaseMessage<
+//         'tensorFlowVis',
+//         {
+//             request: 'layer';
+//             container: SurfaceInfo | string;
+//             layer: any;  // Layer; // TODO: Fix Layer type
+//         }
+//     >;

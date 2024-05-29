@@ -19,10 +19,10 @@ import { createDeferred, Deferred, generateId, noop } from '../coreUtils';
 import { ServerLogger } from '../serverLogger';
 import { CellOutput as CellOutput } from './cellOutput';
 import { getNotebookCwd } from '../utils';
-import { TensorflowVisClient } from '../tfjsvis';
+// import { TensorflowVisClient } from '../tfjsvis'; // TODO: Fix tensorflow vis
 import { Compiler } from './compiler';
 import { CodeObject, RequestType, ResponseType } from '../server/types';
-import { getConfiguration, writeConfigurationToTempFile } from '../configuration';
+import { writeConfigurationToTempFile } from '../configuration'; // getConfiguration,
 import { quote } from 'shell-quote';
 import { getNextExecutionOrder } from './executionOrder';
 import { DebuggerFactory } from './debugger/debugFactory';
@@ -311,32 +311,33 @@ export class JavaScriptKernel implements IDisposable {
                 }, noop);
                 break;
             }
-            case 'tensorFlowVis': {
-                if (
-                    getConfiguration().inlineTensorflowVisualizations &&
-                    (message.request === 'history' ||
-                        message.request === 'scatterplot' ||
-                        message.request === 'linechart' ||
-                        message.request === 'heatmap' ||
-                        message.request === 'layer' ||
-                        message.request === 'valuesdistribution' ||
-                        // message.request === 'registerfitcallback' || // Disabled, as VSC is slow to display the output.
-                        // message.request === 'fitcallback' || // Disabled, as VSC is slow to display the output.
-                        message.request === 'table' ||
-                        message.request === 'perclassaccuracy' ||
-                        message.request === 'histogram' ||
-                        message.request === 'barchart' ||
-                        message.request === 'confusionmatrix' ||
-                        message.request === 'modelsummary')
-                ) {
-                    const item = this.tasks.get(message.requestId)?.stdOutput || this.getCellOutput();
-                    if (item) {
-                        item.appendTensorflowVisOutput(message);
-                    }
-                }
-                TensorflowVisClient.sendMessage(message);
-                break;
-            }
+            // todo: Uncomment when we have tensorflow vis support.
+            // case 'tensorFlowVis': {
+            //     if (
+            //         getConfiguration().inlineTensorflowVisualizations &&
+            //         (message.request === 'history' ||
+            //             message.request === 'scatterplot' ||
+            //             message.request === 'linechart' ||
+            //             message.request === 'heatmap' ||
+            //             message.request === 'layer' ||
+            //             message.request === 'valuesdistribution' ||
+            //             // message.request === 'registerfitcallback' || // Disabled, as VSC is slow to display the output.
+            //             // message.request === 'fitcallback' || // Disabled, as VSC is slow to display the output.
+            //             message.request === 'table' ||
+            //             message.request === 'perclassaccuracy' ||
+            //             message.request === 'histogram' ||
+            //             message.request === 'barchart' ||
+            //             message.request === 'confusionmatrix' ||
+            //             message.request === 'modelsummary')
+            //     ) {
+            //         const item = this.tasks.get(message.requestId)?.stdOutput || this.getCellOutput();
+            //         if (item) {
+            //             item.appendTensorflowVisOutput(message);
+            //         }
+            //     }
+            //     TensorflowVisClient.sendMessage(message);
+            //     break;
+            // }
             case 'cellExec': {
                 const item = this.tasks.get(message.requestId);
                 if (item) {

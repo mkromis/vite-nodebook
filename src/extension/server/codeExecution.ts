@@ -6,14 +6,14 @@ import { logErrorMessage, logMessage } from './logger';
 import { CodeObject, Configuration, DisplayData, RunCellRequest, RunCellResponse } from './types';
 import { VariableListingMagicCommandHandler } from './magics/variables';
 import { formatImage, formatValue } from './extensions/format';
-import { DanfoJsFormatter } from './extensions/danfoFormatter';
-import { TensorflowJsVisualizer } from './extensions/tfjsVisProxy';
+//import { DanfoJsFormatter } from './extensions/danfoFormatter';
+// import { TensorflowJsVisualizer } from './extensions/tfjsVisProxy';
 import { Plotly } from './extensions/plotly';
 import { init as injectTslib } from '../../../resources/scripts/tslib';
 import { register as registerTsNode } from './tsnode';
 import { noop } from '../coreUtils';
 import { createConsoleOutputCompletedMarker } from '../const';
-import { DanfoNodePlotter } from './extensions/danforPlotter';
+// import { DanfoNodePlotter } from './extensions/danforPlotter.ts';
 import { ArqueroFormatter } from './extensions/arqueroFormatter';
 import { ReadLineProxy } from './extensions/readLineProxy';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -163,9 +163,10 @@ const magics = [new VariableListingMagicCommandHandler()];
 export async function execCode(request: RunCellRequest): Promise<void> {
     Utils.requestId = request.requestId;
     Plotly.requestId = request.requestId;
-    DanfoJsFormatter.requestId = request.requestId;
-    TensorflowJsVisualizer.requestId = request.requestId;
-    DanfoNodePlotter.requestId = request.requestId;
+    // TODO: Fix rendering
+    // DanfoJsFormatter.requestId = request.requestId;
+    // TensorflowJsVisualizer.requestId = request.requestId;
+    // DanfoNodePlotter.requestId = request.requestId;
     for (const magicHandler of magics) {
         if (magicHandler.isMagicCommand(request)) {
             try {
@@ -293,24 +294,26 @@ Module._load = function (request: any, parent: any) {
     if (request === 'node-kernel') {
         return Utils.instance;
     }
-    if (request === '@tensorflow/tfjs-vis') {
-        const tfMath = vm.runInNewContext("require('@tensorflow/tfjs-vis/dist/util/math');", replServer.context, {
-            displayErrors: false
-        });
-        const tfCore = vm.runInNewContext("require('@tensorflow/tfjs-core');", replServer.context, {
-            displayErrors: false
-        });
-        return TensorflowJsVisualizer.initialize(tfCore, tfMath);
-    }
+    // todo: fix tf rendering
+    // if (request === '@tensorflow/tfjs-vis') {
+    //     const tfMath = vm.runInNewContext("require('@tensorflow/tfjs-vis/dist/util/math');", replServer.context, {
+    //         displayErrors: false
+    //     });
+    //     const tfCore = vm.runInNewContext("require('@tensorflow/tfjs-core');", replServer.context, {
+    //         displayErrors: false
+    //     });
+    //     return TensorflowJsVisualizer.initialize(tfCore, tfMath);
+    // }
 
     // eslint-disable-next-line prefer-rest-params
     const result = originalLoad.apply(this, arguments);
     if (request === 'readline') {
         ReadLineProxy.initialize(result);
     }
-    if (request === 'danfojs-node') {
-        DanfoJsFormatter.initialize(result);
-    }
+    // TODO: fix danfojs rendering
+    // if (request === 'danfojs-node') {
+    //     DanfoJsFormatter.initialize(result);
+    // }
     if (request === 'arquero') {
         ArqueroFormatter.initialize(result);
     }

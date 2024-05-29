@@ -3,7 +3,7 @@ import { registerDisposableRegistry } from './utils';
 import { ExtensionContext } from 'vscode';
 import { Controller } from './kernel';
 import { ServerLogger } from './serverLogger';
-import { TensorflowVisClient } from './tfjsvis';
+//import { TensorflowVisClient } from './tfjsvis';
 import { DebuggerCommands } from './kernel/debugger/commands';
 import { DebuggerFactory } from './kernel/debugger/debugFactory';
 import { PlotlyDownloadRenderer } from './kernel/plotly';
@@ -20,7 +20,7 @@ export async function activate(context: ExtensionContext) {
     ContentProvider.register(context);
     Controller.regsiter();
     ServerLogger.register();
-    TensorflowVisClient.register(context);
+    //    TensorflowVisClient.register(context); // todo: fix tensorflow vis
     DebuggerCommands.register(context);
     DebuggerFactory.regsiter(context);
     PlotlyDownloadRenderer.register(context);

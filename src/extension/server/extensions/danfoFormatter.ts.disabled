@@ -4,7 +4,7 @@ import type * as dfd from 'danfojs-node';
 import type Configs from 'danfojs-node/dist/danfojs-base/shared/config';
 
 import { sendMessage } from '../comms';
-import { DanfoNodePlotter } from './danforPlotter';
+import { DanfoNodePlotter } from './danforPlotter.ts.disabled';
 import { DisplayData } from '../types';
 
 export class DanfoJsFormatter {

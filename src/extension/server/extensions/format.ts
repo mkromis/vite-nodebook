@@ -4,8 +4,8 @@ import * as util from 'util';
 import { promises as fs } from "fs";
 import { logMessage } from '../logger';
 import { DisplayData } from '../types';
-import { DanfoJsFormatter } from './danfoFormatter';
-import { formatTensor, isTensor } from './tensorFormatter';
+// import { DanfoJsFormatter } from './danfoFormatter';
+// import { formatTensor, isTensor } from './tensorFormatter';
 import { ArqueroFormatter } from './arqueroFormatter';
 
 export function isBase64OrSvg(value: string) {
@@ -98,16 +98,18 @@ export async function formatValue(value: unknown, requestId: string): Promise<Di
         }
         // Return as plain text.
         return { type: 'text', value: utilInspect(value), requestId };
-    } else if (isTensor(value)) {
-        return formatTensor(value, requestId);
+        // todo: uncomment this when we have tfjs
+        // } else if (isTensor(value)) {
+        //     return formatTensor(value, requestId);
     } else if (value && Array.isArray(value)) {
         return {
             type: 'text',
             requestId,
             value: utilInspect(value) // stringify(value) // We use this in case we have circular references in the Objects.
         };
-    } else if (value && DanfoJsFormatter.instance.canFormatAsDanfo(value)) {
-        return DanfoJsFormatter.instance.formatDanfoObject(value);
+        // todo: uncomment this when we have danfojs
+        // } else if (value && DanfoJsFormatter.instance.canFormatAsDanfo(value)) {
+        //     return DanfoJsFormatter.instance.formatDanfoObject(value);
     } else if (value && typeof value === 'object' && value.constructor?.name === 'Tensor') {
         return {
             type: 'text',
