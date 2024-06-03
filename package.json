@@ -367,7 +367,7 @@
         "json-stringify-safe": "^5.0.1",
         "kind-of": "^6.0.3",
         "node-pty": "^1.0.0",
-        "plotly.js-dist": "^2.29.1",
+        "plotly.js-dist": "^2.33.0",
         "profoundjs-node-pty": "^2.0.3",
         "recast": "^0.23.4",
         "shell-quote": "^1.7.2",
