@@ -359,7 +359,7 @@
         "@tensorflow/tfjs-vis": "^1.5.1",
         "@xterm/xterm": "^5.5.0",
         "acorn": "^8.4.1",
-        "acorn-walk": "^8.3.2",
+        "acorn-walk": "^8.3.3",
         "error-stack-parser": "^2.1.4",
         "file-type": "^19.0.0",
         "get-port": "^7.0.0",
