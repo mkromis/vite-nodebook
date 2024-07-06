@@ -380,7 +380,7 @@
     },
     "devDependencies": {
         "@babel/generator": "^7.23.6",
-        "@types/mocha": "^10.0.6",
+        "@types/mocha": "^10.0.7",
         "@types/node": "^20.11.20",
         "@types/plotly.js": "^2.29.1",
         "@types/shell-quote": "^1.7.5",
@@ -413,7 +413,7 @@
         "ify-loader": "^1.1.0",
         "install": "^0.13.0",
         "less": "^4.2.0",
-        "mocha": "^10.3.0",
+        "mocha": "^10.5.2",
         "prettier": "^3.3.2",
         "style-loader": "^4.0.0",
         "svg-inline-loader": "^0.8.2",
