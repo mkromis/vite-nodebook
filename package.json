@@ -381,7 +381,7 @@
     "devDependencies": {
         "@babel/generator": "^7.25.6",
         "@types/mocha": "^10.0.7",
-        "@types/node": "^22.5.4",
+        "@types/node": "^22.6.0",
         "@types/plotly.js": "^2.33.3",
         "@types/shell-quote": "^1.7.5",
         "@types/tmp": "^0.2.6",
