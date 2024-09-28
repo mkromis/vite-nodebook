@@ -392,7 +392,7 @@
         "@types/yargs": "^17.0.32",
         "@typescript-eslint/eslint-plugin": "^8.5.0",
         "@typescript-eslint/parser": "^7.18.0",
-        "@vscode/debugprotocol": "^1.64.0",
+        "@vscode/debugprotocol": "^1.67.0",
         "@vscode/dts": "^0.4.1",
         "@vscode/test-electron": "^2.4.1",
         "@xterm/addon-serialize": "^0.13.0",
