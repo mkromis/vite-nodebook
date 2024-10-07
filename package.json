@@ -390,7 +390,7 @@
         "@types/vscode-webview": "^1.57.5",
         "@types/ws": "^8.5.12",
         "@types/yargs": "^17.0.32",
-        "@typescript-eslint/eslint-plugin": "^8.8.0",
+        "@typescript-eslint/eslint-plugin": "^8.8.1",
         "@typescript-eslint/parser": "^7.18.0",
         "@vscode/debugprotocol": "^1.67.0",
         "@vscode/dts": "^0.4.1",
