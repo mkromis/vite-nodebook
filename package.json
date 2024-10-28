@@ -358,7 +358,7 @@
     "dependencies": {
         "@tensorflow/tfjs-vis": "^1.5.1",
         "@xterm/xterm": "^5.5.0",
-        "acorn": "^8.12.1",
+        "acorn": "^8.14.0",
         "acorn-walk": "^8.3.4",
         "error-stack-parser": "^2.1.4",
         "file-type": "^19.6.0",
