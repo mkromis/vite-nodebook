@@ -361,7 +361,7 @@
         "acorn": "^8.12.1",
         "acorn-walk": "^8.3.4",
         "error-stack-parser": "^2.1.4",
-        "file-type": "^19.5.0",
+        "file-type": "^19.6.0",
         "get-port": "^7.0.0",
         "is-plain-object": "^5.0.0",
         "json-stringify-safe": "^5.0.1",
